@@ -1,0 +1,151 @@
+# Copyright 2021-2025 David Robillard <d@drobilla.net>
+# SPDX-License-Identifier: 0BSD OR ISC
+
+data_dir = get_option('prefix') / get_option('datadir') / 'pugl-0'
+example_defines = ['-DPUGL_DATA_DIR="@0@"'.format(data_dir)]
+
+stub_examples = ['pugl_print_events.c']
+
+gl_examples = [
+  'pugl_clipboard_demo.c',
+  'pugl_cursor_demo.c',
+  'pugl_embed_demo.c',
+  'pugl_shader_demo.c',
+  'pugl_window_demo.c',
+]
+
+cairo_examples = ['pugl_cairo_demo.c', 'pugl_management_demo.c']
+
+vulkan_examples = ['pugl_vulkan_demo.c']
+
+# Suppress some additional C warnings in examples
+warning_level = get_option('warning_level')
+example_c_args = []
+if warning_level == 'everything'
+  if cc.get_id() == 'clang'
+    example_c_args += [
+      '-Wno-float-equal',
+      '-Wno-nrvo',
+      '-Wno-reserved-id-macro',
+      '-Wno-reserved-identifier',
+    ]
+  elif cc.get_id() == 'gcc'
+    example_c_args += ['-Wno-float-equal']
+  endif
+
+  example_c_args = cc.get_supported_arguments(example_c_args)
+endif
+example_c_args += c_suppressions
+
+if cc.get_id() == 'msvc' and warning_level in ['everything', '3', '2']
+  example_c_args += ['/D_CRT_SECURE_NO_WARNINGS']
+endif
+
+subdir('shaders')
+
+if host_machine.system() == 'darwin'
+  # On Darwin, build examples as application bundles (required to work properly)
+
+  subdir('pugl_clipboard_demo.app')
+
+  if cairo_dep.found()
+    subdir('pugl_cairo_demo.app')
+    subdir('pugl_management_demo.app')
+  endif
+
+  if opengl_dep.found()
+    subdir('pugl_cursor_demo.app')
+    subdir('pugl_embed_demo.app')
+    subdir('pugl_shader_demo.app')
+    subdir('pugl_window_demo.app')
+  endif
+
+  if vulkan_dep.found()
+    subdir('pugl_vulkan_demo.app')
+  endif
+
+else
+  # On all other platforms, build examples as simple programs
+
+  # Build stub examples
+  foreach example : stub_examples
+    source = [example]
+    target = example.split('.')[0]
+    dependencies = [pugl_dep, pugl_stub_dep, puglutil_dep]
+    defines = []
+
+    executable(
+      target,
+      source,
+      c_args: example_defines + example_c_args + defines,
+      dependencies: dependencies,
+      implicit_include_directories: false,
+    )
+  endforeach
+
+  # Build GL examples
+  if opengl_dep.found()
+    foreach example : gl_examples
+      source = [example]
+      target = example.split('.')[0]
+      dependencies = [m_dep, pugl_dep, pugl_gl_dep, puglutil_dep]
+      gl_args = []
+
+      if host_machine.system() == 'darwin'
+        gl_args += ['-DGL_SILENCE_DEPRECATION', '-Wno-deprecated-declarations']
+      endif
+
+      if cc.get_id() == 'gcc' and warning_level in ['everything', '3']
+        gl_args += ['-Wno-pedantic']
+      endif
+
+      if target == 'pugl_shader_demo'
+        source += ['glad/glad.c']
+        dependencies += [dl_dep]
+        gl_args += ['-D_POSIX_C_SOURCE=200809L']
+      elif target == 'pugl_print_events'
+        dependencies += [stub_backend_dep]
+      endif
+
+      executable(
+        target,
+        source,
+        c_args: example_defines + example_c_args + gl_args,
+        dependencies: dependencies,
+        implicit_include_directories: false,
+      )
+    endforeach
+  endif
+
+  # Build Cairo examples
+  if cairo_dep.found()
+    foreach example : cairo_examples
+      target = example.split('.')[0]
+      executable(
+        target,
+        example,
+        c_args: example_defines + example_c_args + cairo_args,
+        dependencies: [m_dep, pugl_dep, pugl_cairo_dep, puglutil_dep],
+        implicit_include_directories: false,
+      )
+    endforeach
+  endif
+
+  # Build Vulkan examples
+  if vulkan_dep.found()
+    foreach example : vulkan_examples
+      source = [example]
+      target = example.split('.')[0]
+      dependencies = [dl_dep, pugl_vulkan_dep, puglutil_dep]
+      defines = []
+
+      executable(
+        target,
+        source,
+        c_args: example_defines + example_c_args + defines,
+        dependencies: dependencies,
+        implicit_include_directories: false,
+      )
+    endforeach
+  endif
+endif

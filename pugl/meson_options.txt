@@ -1,0 +1,16 @@
+# Copyright 2021-2025 David Robillard <d@drobilla.net>
+# SPDX-License-Identifier: 0BSD OR ISC
+
+option('bindings_cpp', type: 'feature', description: 'Build C++ bindings')
+option('cairo', type: 'feature', description: 'Enable Cairo graphics backend')
+option('docs', type: 'feature', description: 'Build documentation')
+option('examples', type: 'feature', description: 'Build example programs')
+option('lint', type: 'boolean', value: false, description: 'Run project tests')
+option('opengl', type: 'feature', description: 'Enable OpenGL graphics backend')
+option('stub', type: 'boolean', description: 'Build stub backend')
+option('tests', type: 'feature', description: 'Build tests')
+option('vulkan', type: 'feature', description: 'Enable Vulkan graphics backend')
+option('win_wchar', type: 'feature', description: 'Use UNICODE with Win32')
+option('xcursor', type: 'feature', description: 'Support X11 cursor')
+option('xrandr', type: 'feature', description: 'Support X11 refresh rate')
+option('xsync', type: 'feature', description: 'Support timers on X11')

@@ -1,0 +1,43 @@
+
+inputs = [
+    "headers"
+]
+
+output_folder = "pugl-odin"
+package_name = "pugl"
+
+import_lib = "libpugl.a"
+
+import_file = "import_lib.odin"
+
+force_ada_case_types = true
+
+remove_type_prefix = "Pugl"
+
+remove_function_prefix = "pugl"
+
+
+rename = {
+}
+
+bit_setify = {
+    "PuglMod" = "Mods"
+}
+
+type_overrides = {
+    "PuglPoint" = "[2]i32"
+    "PuglNativeView" = "rawptr"
+}
+
+struct_field_overrides = {
+    "PuglClientEvent.data1" = "rawptr"
+    "PuglClientEvent.data2" = "rawptr"
+
+    "PuglTimerEvent.id" = "rawptr"
+}
+
+procedure_type_overrides = {
+    "PuglGlFunc" = "rawptr"
+}
+
+procedures_at_end = true
