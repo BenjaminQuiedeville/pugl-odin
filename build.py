@@ -16,8 +16,8 @@ if platform == "Windows":
     os.makedirs("build", exist_ok=True)
     os.chdir("build")
     
-    # os.system("clang -c -O3 -mavx -DPUGL_API=\"\" -I../include ../src/common.c ../src/internal.c ../src/win.c ../src/win_gl.c")
-    os.system("clang -c -g -gcodeview -DPUGL_API=\"\" -I../include ../src/common.c ../src/internal.c ../src/win.c ../src/win_gl.c")
+    os.system("clang -c -O3 -DPUGL_API=\"\" -I../include ../src/common.c ../src/internal.c ../src/win.c ../src/win_gl.c")
+    # os.system("clang -c -g -gcodeview -DPUGL_API=\"\" -I../include ../src/common.c ../src/internal.c ../src/win.c ../src/win_gl.c")
     os.system("llvm-ar r pugl.lib *.o")
     
     os.chdir("../..")
