@@ -5,15 +5,15 @@ package pugl
 import "core:c"
 
 when ODIN_OS == .Windows {
-	@export foreign import lib {
-		"pugl.lib",
-		"system:User32.lib",
-		"system:Gdi32.lib",
-		"system:Dwmapi.lib",
-		"system:OpenGL32.lib",
-	}
+    @export foreign import lib {
+        "pugl.lib",
+        "system:User32.lib",
+        "system:Gdi32.lib",
+        "system:Dwmapi.lib",
+        "system:OpenGL32.lib",
+    }
 } else {
-	@export foreign import lib "libpugl.a"
+    @export foreign import lib "libpugl.a"
 }
 _ :: lib
 
@@ -46,42 +46,42 @@ Point :: [2]Coord
 
 /// A 2-dimensional size within/of a view
 Area :: struct {
-	width:  Span,
-	height: Span,
+    width:  Span,
+    height: Span,
 }
 
 /// The type of a #PuglEvent
-Event_Type :: enum u32 {
-	NOTHING        = 0,  ///< No event
-	REALIZE        = 1,  ///< View realized, a #PuglRealizeEvent
-	UNREALIZE      = 2,  ///< View unrealized, a #PuglUnrealizeEvent
-	CONFIGURE      = 3,  ///< View configured, a #PuglConfigureEvent
-	UPDATE         = 4,  ///< View update before draw, a #PuglUpdateEvent
-	EXPOSE         = 5,  ///< View expose during draw, a #PuglExposeEvent
-	CLOSE          = 6,  ///< View will be closed, a #PuglCloseEvent
-	FOCUS_IN       = 7,  ///< Keyboard focus entered view, a #PuglFocusEvent
-	FOCUS_OUT      = 8,  ///< Keyboard focus left view, a #PuglFocusEvent
-	KEY_PRESS      = 9,  ///< Key pressed, a #PuglKeyEvent
-	KEY_RELEASE    = 10, ///< Key released, a #PuglKeyEvent
-	TEXT           = 11, ///< Character entered, a #PuglTextEvent
-	POINTER_IN     = 12, ///< Pointer entered view, a #PuglCrossingEvent
-	POINTER_OUT    = 13, ///< Pointer left view, a #PuglCrossingEvent
-	BUTTON_PRESS   = 14, ///< Mouse button pressed, a #PuglButtonEvent
-	BUTTON_RELEASE = 15, ///< Mouse button released, a #PuglButtonEvent
-	MOTION         = 16, ///< Pointer moved, a #PuglMotionEvent
-	SCROLL         = 17, ///< Scrolled, a #PuglScrollEvent
-	CLIENT         = 18, ///< Custom client message, a #PuglClientEvent
-	TIMER          = 19, ///< Timer triggered, a #PuglTimerEvent
-	LOOP_ENTER     = 20, ///< Recursive loop entered, a #PuglLoopEnterEvent
-	LOOP_LEAVE     = 21, ///< Recursive loop left, a #PuglLoopLeaveEvent
-	DATA_OFFER     = 22, ///< Data offered from clipboard, a #PuglDataOfferEvent
-	DATA           = 23, ///< Data available from clipboard, a #PuglDataEvent
+Event_Type :: enum c.int {
+    NOTHING        = 0,  ///< No event
+    REALIZE        = 1,  ///< View realized, a #PuglRealizeEvent
+    UNREALIZE      = 2,  ///< View unrealized, a #PuglUnrealizeEvent
+    CONFIGURE      = 3,  ///< View configured, a #PuglConfigureEvent
+    UPDATE         = 4,  ///< View update before draw, a #PuglUpdateEvent
+    EXPOSE         = 5,  ///< View expose during draw, a #PuglExposeEvent
+    CLOSE          = 6,  ///< View will be closed, a #PuglCloseEvent
+    FOCUS_IN       = 7,  ///< Keyboard focus entered view, a #PuglFocusEvent
+    FOCUS_OUT      = 8,  ///< Keyboard focus left view, a #PuglFocusEvent
+    KEY_PRESS      = 9,  ///< Key pressed, a #PuglKeyEvent
+    KEY_RELEASE    = 10, ///< Key released, a #PuglKeyEvent
+    TEXT           = 11, ///< Character entered, a #PuglTextEvent
+    POINTER_IN     = 12, ///< Pointer entered view, a #PuglCrossingEvent
+    POINTER_OUT    = 13, ///< Pointer left view, a #PuglCrossingEvent
+    BUTTON_PRESS   = 14, ///< Mouse button pressed, a #PuglButtonEvent
+    BUTTON_RELEASE = 15, ///< Mouse button released, a #PuglButtonEvent
+    MOTION         = 16, ///< Pointer moved, a #PuglMotionEvent
+    SCROLL         = 17, ///< Scrolled, a #PuglScrollEvent
+    CLIENT         = 18, ///< Custom client message, a #PuglClientEvent
+    TIMER          = 19, ///< Timer triggered, a #PuglTimerEvent
+    LOOP_ENTER     = 20, ///< Recursive loop entered, a #PuglLoopEnterEvent
+    LOOP_LEAVE     = 21, ///< Recursive loop left, a #PuglLoopLeaveEvent
+    DATA_OFFER     = 22, ///< Data offered from clipboard, a #PuglDataOfferEvent
+    DATA           = 23, ///< Data available from clipboard, a #PuglDataEvent
 }
 
 /// Common flags for all event types
 Event_Flag :: enum u32 {
-	SEND_EVENT = 1, ///< Event is synthetic
-	HINT       = 2, ///< Event is a hint (not direct user input)
+    SEND_EVENT = 1, ///< Event is synthetic
+    HINT       = 2, ///< Event is a hint (not direct user input)
 }
 
 /// Bitwise OR of #PuglEventFlag values
@@ -89,8 +89,8 @@ Event_Flags :: u32
 
 /// Common header for all events
 Any_Event :: struct {
-	type:  Event_Type,  ///< Event type
-	flags: Event_Flags, ///< Bitwise OR of #PuglEventFlag values
+    type:  Event_Type,  ///< Event type
+    flags: Event_Flags, ///< Bitwise OR of #PuglEventFlag values
 }
 
 /**
@@ -100,35 +100,35 @@ Style flags reflect special modes and states supported by the window system.
 Applications can monitor or manipulate them to improve integration.
 */
 View_Style_Flag :: enum u32 {
-	/// View is mapped to a real window and potentially visible
-	MAPPED     = 1,
+    /// View is mapped to a real window and potentially visible
+    MAPPED     = 1,
 
-	/// View is modal, typically a dialog box of its transient parent
-	MODAL      = 2,
+    /// View is modal, typically a dialog box of its transient parent
+    MODAL      = 2,
 
-	/// View should be above most others
-	ABOVE      = 4,
+    /// View should be above most others
+    ABOVE      = 4,
 
-	/// View should be below most others
-	BELOW      = 8,
+    /// View should be below most others
+    BELOW      = 8,
 
-	/// View is minimized, shaded, or otherwise invisible
-	HIDDEN     = 16,
+    /// View is minimized, shaded, or otherwise invisible
+    HIDDEN     = 16,
 
-	/// View is maximized to fill the screen vertically
-	TALL       = 32,
+    /// View is maximized to fill the screen vertically
+    TALL       = 32,
 
-	/// View is maximized to fill the screen horizontally
-	WIDE       = 64,
+    /// View is maximized to fill the screen horizontally
+    WIDE       = 64,
 
-	/// View is enlarged to fill the entire screen with no decorations
-	FULLSCREEN = 128,
+    /// View is enlarged to fill the entire screen with no decorations
+    FULLSCREEN = 128,
 
-	/// View is being resized
-	RESIZING   = 256,
+    /// View is being resized
+    RESIZING   = 256,
 
-	/// View is ready for input or otherwise demanding attention
-	DEMANDING  = 512,
+    /// View is ready for input or otherwise demanding attention
+    DEMANDING  = 512,
 }
 
 /// Bitwise OR of #PuglViewStyleFlag values
@@ -160,13 +160,13 @@ isn't active during a configure event, so these values should be saved if
 necessary and applied the next time the view is exposed.
 */
 Configure_Event :: struct {
-	type:   Event_Type,       ///< #PUGL_CONFIGURE
-	flags:  Event_Flags,      ///< Bitwise OR of #PuglEventFlag values
-	x:      Coord,              ///< Parent-relative X coordinate of view
-	y:      Coord,              ///< Parent-relative Y coordinate of view
-	width:  Span,             ///< Width of view
-	height: Span,             ///< Height of view
-	style:  View_Style_Flags, ///< Bitwise OR of #PuglViewStyleFlag flags
+    type:   Event_Type,       ///< #PUGL_CONFIGURE
+    flags:  Event_Flags,      ///< Bitwise OR of #PuglEventFlag values
+    x:      Coord,              ///< Parent-relative X coordinate of view
+    y:      Coord,              ///< Parent-relative Y coordinate of view
+    width:  Span,             ///< Width of view
+    height: Span,             ///< Height of view
+    style:  View_Style_Flags, ///< Bitwise OR of #PuglViewStyleFlag flags
 }
 
 /**
@@ -222,12 +222,12 @@ entered and activated for drawing.  The application must completely draw the
 given region.
 */
 Expose_Event :: struct {
-	type:   Event_Type,  ///< #PUGL_EXPOSE
-	flags:  Event_Flags, ///< Bitwise OR of #PuglEventFlag values
-	x:      Coord,         ///< View-relative top-left X coordinate of region
-	y:      Coord,         ///< View-relative top-left Y coordinate of region
-	width:  Span,        ///< Width of exposed region
-	height: Span,        ///< Height of exposed region
+    type:   Event_Type,  ///< #PUGL_EXPOSE
+    flags:  Event_Flags, ///< Bitwise OR of #PuglEventFlag values
+    x:      Coord,         ///< View-relative top-left X coordinate of region
+    y:      Coord,         ///< View-relative top-left Y coordinate of region
+    width:  Span,        ///< Width of exposed region
+    height: Span,        ///< Height of exposed region
 }
 
 /**
@@ -245,98 +245,98 @@ must take care to not interpret these values beyond key detection, the
 mapping used here is arbitrary and specific to Pugl.
 */
 Key :: enum u32 {
-	NONE          = 0,     ///< Sentinel value for no key
-	BACKSPACE     = 8,     ///< Backspace
-	TAB           = 9,     ///< Tab
-	ENTER         = 13,    ///< Enter
-	ESCAPE        = 27,    ///< Escape
-	DELETE        = 127,   ///< Delete
-	SPACE         = 32,    ///< Space
-	F1            = 57344, ///< F1
-	F2            = 57345, ///< F2
-	F3            = 57346, ///< F3
-	F4            = 57347, ///< F4
-	F5            = 57348, ///< F5
-	F6            = 57349, ///< F6
-	F7            = 57350, ///< F7
-	F8            = 57351, ///< F8
-	F9            = 57352, ///< F9
-	F10           = 57353, ///< F10
-	F11           = 57360, ///< F11
-	F12           = 57361, ///< F12
-	PAGE_UP       = 57393, ///< Page Up
-	PAGE_DOWN     = 57394, ///< Page Down
-	END           = 57395, ///< End
-	HOME          = 57396, ///< Home
-	LEFT          = 57397, ///< Left
-	UP            = 57398, ///< Up
-	RIGHT         = 57399, ///< Right
-	DOWN          = 57400, ///< Down
-	PRINT_SCREEN  = 57409, ///< Print Screen
-	INSERT        = 57410, ///< Insert
-	PAUSE         = 57411, ///< Pause/Break
-	MENU          = 57412, ///< Menu
-	NUM_LOCK      = 57413, ///< Num Lock
-	SCROLL_LOCK   = 57414, ///< Scroll Lock
-	CAPS_LOCK     = 57415, ///< Caps Lock
-	SHIFT_L       = 57425, ///< Left Shift
-	SHIFT_R       = 57426, ///< Right Shift
-	CTRL_L        = 57427, ///< Left Control
-	CTRL_R        = 57428, ///< Right Control
-	ALT_L         = 57429, ///< Left Alt
-	ALT_R         = 57430, ///< Right Alt / AltGr
-	SUPER_L       = 57431, ///< Left Super
-	SUPER_R       = 57432, ///< Right Super
-	PAD_0         = 57440, ///< Keypad 0
-	PAD_1         = 57441, ///< Keypad 1
-	PAD_2         = 57442, ///< Keypad 2
-	PAD_3         = 57443, ///< Keypad 3
-	PAD_4         = 57444, ///< Keypad 4
-	PAD_5         = 57445, ///< Keypad 5
-	PAD_6         = 57446, ///< Keypad 6
-	PAD_7         = 57447, ///< Keypad 7
-	PAD_8         = 57448, ///< Keypad 8
-	PAD_9         = 57449, ///< Keypad 9
-	PAD_ENTER     = 57456, ///< Keypad Enter
-	PAD_PAGE_UP   = 57457, ///< Keypad Page Up
-	PAD_PAGE_DOWN = 57458, ///< Keypad Page Down
-	PAD_END       = 57459, ///< Keypad End
-	PAD_HOME      = 57460, ///< Keypad Home
-	PAD_LEFT      = 57461, ///< Keypad Left
-	PAD_UP        = 57462, ///< Keypad Up
-	PAD_RIGHT     = 57463, ///< Keypad Right
-	PAD_DOWN      = 57464, ///< Keypad Down
-	PAD_CLEAR     = 57501, ///< Keypad Clear/Begin
-	PAD_INSERT    = 57502, ///< Keypad Insert
-	PAD_DELETE    = 57503, ///< Keypad Delete
-	PAD_EQUAL     = 57504, ///< Keypad Equal
-	PAD_MULTIPLY  = 57514, ///< Keypad Multiply
-	PAD_ADD       = 57515, ///< Keypad Add
-	PAD_SEPARATOR = 57516, ///< Keypad Separator
-	PAD_SUBTRACT  = 57517, ///< Keypad Subtract
-	PAD_DECIMAL   = 57518, ///< Keypad Decimal
-	PAD_DIVIDE    = 57519, ///< Keypad Divide
+    NONE          = 0,     ///< Sentinel value for no key
+    BACKSPACE     = 8,     ///< Backspace
+    TAB           = 9,     ///< Tab
+    ENTER         = 13,    ///< Enter
+    ESCAPE        = 27,    ///< Escape
+    DELETE        = 127,   ///< Delete
+    SPACE         = 32,    ///< Space
+    F1            = 57344, ///< F1
+    F2            = 57345, ///< F2
+    F3            = 57346, ///< F3
+    F4            = 57347, ///< F4
+    F5            = 57348, ///< F5
+    F6            = 57349, ///< F6
+    F7            = 57350, ///< F7
+    F8            = 57351, ///< F8
+    F9            = 57352, ///< F9
+    F10           = 57353, ///< F10
+    F11           = 57360, ///< F11
+    F12           = 57361, ///< F12
+    PAGE_UP       = 57393, ///< Page Up
+    PAGE_DOWN     = 57394, ///< Page Down
+    END           = 57395, ///< End
+    HOME          = 57396, ///< Home
+    LEFT          = 57397, ///< Left
+    UP            = 57398, ///< Up
+    RIGHT         = 57399, ///< Right
+    DOWN          = 57400, ///< Down
+    PRINT_SCREEN  = 57409, ///< Print Screen
+    INSERT        = 57410, ///< Insert
+    PAUSE         = 57411, ///< Pause/Break
+    MENU          = 57412, ///< Menu
+    NUM_LOCK      = 57413, ///< Num Lock
+    SCROLL_LOCK   = 57414, ///< Scroll Lock
+    CAPS_LOCK     = 57415, ///< Caps Lock
+    SHIFT_L       = 57425, ///< Left Shift
+    SHIFT_R       = 57426, ///< Right Shift
+    CTRL_L        = 57427, ///< Left Control
+    CTRL_R        = 57428, ///< Right Control
+    ALT_L         = 57429, ///< Left Alt
+    ALT_R         = 57430, ///< Right Alt / AltGr
+    SUPER_L       = 57431, ///< Left Super
+    SUPER_R       = 57432, ///< Right Super
+    PAD_0         = 57440, ///< Keypad 0
+    PAD_1         = 57441, ///< Keypad 1
+    PAD_2         = 57442, ///< Keypad 2
+    PAD_3         = 57443, ///< Keypad 3
+    PAD_4         = 57444, ///< Keypad 4
+    PAD_5         = 57445, ///< Keypad 5
+    PAD_6         = 57446, ///< Keypad 6
+    PAD_7         = 57447, ///< Keypad 7
+    PAD_8         = 57448, ///< Keypad 8
+    PAD_9         = 57449, ///< Keypad 9
+    PAD_ENTER     = 57456, ///< Keypad Enter
+    PAD_PAGE_UP   = 57457, ///< Keypad Page Up
+    PAD_PAGE_DOWN = 57458, ///< Keypad Page Down
+    PAD_END       = 57459, ///< Keypad End
+    PAD_HOME      = 57460, ///< Keypad Home
+    PAD_LEFT      = 57461, ///< Keypad Left
+    PAD_UP        = 57462, ///< Keypad Up
+    PAD_RIGHT     = 57463, ///< Keypad Right
+    PAD_DOWN      = 57464, ///< Keypad Down
+    PAD_CLEAR     = 57501, ///< Keypad Clear/Begin
+    PAD_INSERT    = 57502, ///< Keypad Insert
+    PAD_DELETE    = 57503, ///< Keypad Delete
+    PAD_EQUAL     = 57504, ///< Keypad Equal
+    PAD_MULTIPLY  = 57514, ///< Keypad Multiply
+    PAD_ADD       = 57515, ///< Keypad Add
+    PAD_SEPARATOR = 57516, ///< Keypad Separator
+    PAD_SUBTRACT  = 57517, ///< Keypad Subtract
+    PAD_DECIMAL   = 57518, ///< Keypad Decimal
+    PAD_DIVIDE    = 57519, ///< Keypad Divide
 }
 
 /// Keyboard modifier flags
 Mod :: enum u32 {
-	SHIFT       = 0, ///< Shift pressed
-	CTRL        = 1, ///< Control pressed
-	ALT         = 2, ///< Alt/Option pressed
-	SUPER       = 3, ///< Super/Command/Windows pressed
-	NUM_LOCK    = 4, ///< Num lock enabled
-	SCROLL_LOCK = 5, ///< Scroll lock enabled
-	CAPS_LOCK   = 6, ///< Caps lock enabled
+    SHIFT       = 0, ///< Shift pressed
+    CTRL        = 1, ///< Control pressed
+    ALT         = 2, ///< Alt/Option pressed
+    SUPER       = 3, ///< Super/Command/Windows pressed
+    NUM_LOCK    = 4, ///< Num lock enabled
+    SCROLL_LOCK = 5, ///< Scroll lock enabled
+    CAPS_LOCK   = 6, ///< Caps lock enabled
 }
 
 /// Bitwise OR of #PuglMod values
 Mods :: bit_set[Mod; i32]
 
 /// Reason for a PuglCrossingEvent
-Crossing_Mode :: enum u32 {
-	NORMAL = 0, ///< Crossing due to pointer motion
-	GRAB   = 1, ///< Crossing due to a grab
-	UNGRAB = 2, ///< Crossing due to a grab release
+Crossing_Mode :: enum c.int {
+    NORMAL = 0, ///< Crossing due to pointer motion
+    GRAB   = 1, ///< Crossing due to a grab
+    UNGRAB = 2, ///< Crossing due to a grab release
 }
 
 /**
@@ -346,9 +346,9 @@ This is sent whenever the view gains or loses the keyboard focus.  The view
 with the keyboard focus will receive any key press or release events.
 */
 Focus_Event :: struct {
-	type:  Event_Type,    ///< #PUGL_FOCUS_IN or #PUGL_FOCUS_OUT
-	flags: Event_Flags,   ///< Bitwise OR of #PuglEventFlag values
-	mode:  Crossing_Mode, ///< Reason for focus change
+    type:  Event_Type,    ///< #PUGL_FOCUS_IN or #PUGL_FOCUS_OUT
+    flags: Event_Flags,   ///< Bitwise OR of #PuglEventFlag values
+    mode:  Crossing_Mode, ///< Reason for focus change
 }
 
 /**
@@ -369,16 +369,16 @@ keys, but note that this value isn't portable and differs between platforms
 and hardware.
 */
 Key_Event :: struct {
-	type:    Event_Type,  ///< #PUGL_KEY_PRESS or #PUGL_KEY_RELEASE
-	flags:   Event_Flags, ///< Bitwise OR of #PuglEventFlag values
-	time:    f64,         ///< Time in seconds
-	x:       f64,         ///< View-relative X coordinate
-	y:       f64,         ///< View-relative Y coordinate
-	xRoot:   f64,         ///< Root-relative X coordinate
-	yRoot:   f64,         ///< Root-relative Y coordinate
-	state:   Mods,        ///< Bitwise OR of #PuglMod flags
-	keycode: u32,         ///< Raw key code
-	key:     u32,         ///< Unshifted Unicode character code, or 0
+    type:    Event_Type,  ///< #PUGL_KEY_PRESS or #PUGL_KEY_RELEASE
+    flags:   Event_Flags, ///< Bitwise OR of #PuglEventFlag values
+    time:    f64,         ///< Time in seconds
+    x:       f64,         ///< View-relative X coordinate
+    y:       f64,         ///< View-relative Y coordinate
+    xRoot:   f64,         ///< Root-relative X coordinate
+    yRoot:   f64,         ///< Root-relative Y coordinate
+    state:   Mods,        ///< Bitwise OR of #PuglMod flags
+    keycode: u32,         ///< Raw key code
+    key:     u32,         ///< Unshifted Unicode character code, or 0
 }
 
 /**
@@ -393,17 +393,17 @@ key presses.  For example, with some input methods a sequence of several key
 presses will generate a single character.
 */
 Text_Event :: struct {
-	type:      Event_Type,  ///< #PUGL_TEXT
-	flags:     Event_Flags, ///< Bitwise OR of #PuglEventFlag values
-	time:      f64,         ///< Time in seconds
-	x:         f64,         ///< View-relative X coordinate
-	y:         f64,         ///< View-relative Y coordinate
-	xRoot:     f64,         ///< Root-relative X coordinate
-	yRoot:     f64,         ///< Root-relative Y coordinate
-	state:     Mods,        ///< Bitwise OR of #PuglMod flags
-	keycode:   u32,         ///< Raw key code
-	character: u32,         ///< Unicode character code
-	_string:   [8]i8,       ///< UTF-8 string
+    type:      Event_Type,  ///< #PUGL_TEXT
+    flags:     Event_Flags, ///< Bitwise OR of #PuglEventFlag values
+    time:      f64,         ///< Time in seconds
+    x:         f64,         ///< View-relative X coordinate
+    y:         f64,         ///< View-relative Y coordinate
+    xRoot:     f64,         ///< Root-relative X coordinate
+    yRoot:     f64,         ///< Root-relative Y coordinate
+    state:     Mods,        ///< Bitwise OR of #PuglMod flags
+    keycode:   u32,         ///< Raw key code
+    character: u32,         ///< Unicode character code
+    _string:   [8]i8,       ///< UTF-8 string
 }
 
 /**
@@ -414,12 +414,12 @@ is a "smooth" scroll.  The discrete directions are for devices like mouse
 wheels with constrained axes, while a smooth scroll is for those with
 arbitrary scroll direction freedom, like some touchpads.
 */
-Scroll_Direction :: enum u32 {
-	UP     = 0, ///< Scroll up
-	DOWN   = 1, ///< Scroll down
-	LEFT   = 2, ///< Scroll left
-	RIGHT  = 3, ///< Scroll right
-	SMOOTH = 4, ///< Smooth scroll in any direction
+Scroll_Direction :: enum c.int {
+    UP     = 0, ///< Scroll up
+    DOWN   = 1, ///< Scroll down
+    LEFT   = 2, ///< Scroll left
+    RIGHT  = 3, ///< Scroll right
+    SMOOTH = 4, ///< Smooth scroll in any direction
 }
 
 /**
@@ -430,15 +430,15 @@ for several reasons (not just the user dragging the pointer over the window
 edge), as described by the `mode` field.
 */
 Crossing_Event :: struct {
-	type:  Event_Type,    ///< #PUGL_POINTER_IN or #PUGL_POINTER_OUT
-	flags: Event_Flags,   ///< Bitwise OR of #PuglEventFlag values
-	time:  f64,           ///< Time in seconds
-	x:     f64,           ///< View-relative X coordinate
-	y:     f64,           ///< View-relative Y coordinate
-	xRoot: f64,           ///< Root-relative X coordinate
-	yRoot: f64,           ///< Root-relative Y coordinate
-	state: Mods,          ///< Bitwise OR of #PuglMod flags
-	mode:  Crossing_Mode, ///< Reason for crossing
+    type:  Event_Type,    ///< #PUGL_POINTER_IN or #PUGL_POINTER_OUT
+    flags: Event_Flags,   ///< Bitwise OR of #PuglEventFlag values
+    time:  f64,           ///< Time in seconds
+    x:     f64,           ///< View-relative X coordinate
+    y:     f64,           ///< View-relative Y coordinate
+    xRoot: f64,           ///< Root-relative X coordinate
+    yRoot: f64,           ///< Root-relative Y coordinate
+    state: Mods,          ///< Bitwise OR of #PuglMod flags
+    mode:  Crossing_Mode, ///< Reason for crossing
 }
 
 /**
@@ -460,29 +460,29 @@ Note that these numbers may differ from those used on the underlying
 platform, since they are manipulated to provide a consistent portable API.
 */
 Button_Event :: struct {
-	type:   Event_Type,  ///< #PUGL_BUTTON_PRESS or #PUGL_BUTTON_RELEASE
-	flags:  Event_Flags, ///< Bitwise OR of #PuglEventFlag values
-	time:   f64,         ///< Time in seconds
-	x:      f64,         ///< View-relative X coordinate
-	y:      f64,         ///< View-relative Y coordinate
-	xRoot:  f64,         ///< Root-relative X coordinate
-	yRoot:  f64,         ///< Root-relative Y coordinate
-	state:  Mods,        ///< Bitwise OR of #PuglMod flags
-	button: u32,         ///< Button number starting from 0
+    type:   Event_Type,  ///< #PUGL_BUTTON_PRESS or #PUGL_BUTTON_RELEASE
+    flags:  Event_Flags, ///< Bitwise OR of #PuglEventFlag values
+    time:   f64,         ///< Time in seconds
+    x:      f64,         ///< View-relative X coordinate
+    y:      f64,         ///< View-relative Y coordinate
+    xRoot:  f64,         ///< Root-relative X coordinate
+    yRoot:  f64,         ///< Root-relative Y coordinate
+    state:  Mods,        ///< Bitwise OR of #PuglMod flags
+    button: u32,         ///< Button number starting from 0
 }
 
 /**
 Pointer motion event.
 */
 Motion_Event :: struct {
-	type:  Event_Type,  ///< #PUGL_MOTION
-	flags: Event_Flags, ///< Bitwise OR of #PuglEventFlag values
-	time:  f64,         ///< Time in seconds
-	x:     f64,         ///< View-relative X coordinate
-	y:     f64,         ///< View-relative Y coordinate
-	xRoot: f64,         ///< Root-relative X coordinate
-	yRoot: f64,         ///< Root-relative Y coordinate
-	state: Mods,        ///< Bitwise OR of #PuglMod flags
+    type:  Event_Type,  ///< #PUGL_MOTION
+    flags: Event_Flags, ///< Bitwise OR of #PuglEventFlag values
+    time:  f64,         ///< Time in seconds
+    x:     f64,         ///< View-relative X coordinate
+    y:     f64,         ///< View-relative Y coordinate
+    xRoot: f64,         ///< Root-relative X coordinate
+    yRoot: f64,         ///< Root-relative Y coordinate
+    state: Mods,        ///< Bitwise OR of #PuglMod flags
 }
 
 /**
@@ -495,17 +495,17 @@ and/or higher values for fast scrolls, so programs should handle any value
 gracefully.
 */
 Scroll_Event :: struct {
-	type:      Event_Type,       ///< #PUGL_SCROLL
-	flags:     Event_Flags,      ///< Bitwise OR of #PuglEventFlag values
-	time:      f64,              ///< Time in seconds
-	x:         f64,              ///< View-relative X coordinate
-	y:         f64,              ///< View-relative Y coordinate
-	xRoot:     f64,              ///< Root-relative X coordinate
-	yRoot:     f64,              ///< Root-relative Y coordinate
-	state:     Mods,             ///< Bitwise OR of #PuglMod flags
-	direction: Scroll_Direction, ///< Scroll direction
-	dx:        f64,              ///< Scroll X distance in lines
-	dy:        f64,              ///< Scroll Y distance in lines
+    type:      Event_Type,       ///< #PUGL_SCROLL
+    flags:     Event_Flags,      ///< Bitwise OR of #PuglEventFlag values
+    time:      f64,              ///< Time in seconds
+    x:         f64,              ///< View-relative X coordinate
+    y:         f64,              ///< View-relative Y coordinate
+    xRoot:     f64,              ///< Root-relative X coordinate
+    yRoot:     f64,              ///< Root-relative Y coordinate
+    state:     Mods,             ///< Bitwise OR of #PuglMod flags
+    direction: Scroll_Direction, ///< Scroll direction
+    dx:        f64,              ///< Scroll X distance in lines
+    dy:        f64,              ///< Scroll Y distance in lines
 }
 
 /**
@@ -516,10 +516,10 @@ the event loop and delivers two pointer-sized data fields.  These
 client-specific fields are opaque to Pugl and aren't interpreted in any way.
 */
 Client_Event :: struct {
-	type:  Event_Type,  ///< #PUGL_CLIENT
-	flags: Event_Flags, ///< Bitwise OR of #PuglEventFlag values
-	data1: rawptr,      ///< Client-specific data
-	data2: rawptr,      ///< Client-specific data
+    type:  Event_Type,  ///< #PUGL_CLIENT
+    flags: Event_Flags, ///< Bitwise OR of #PuglEventFlag values
+    data1: rawptr,      ///< Client-specific data
+    data2: rawptr,      ///< Client-specific data
 }
 
 /**
@@ -531,9 +531,9 @@ platform-specific timers may exist, so applications must always check the
 `id` field before reacting to a timer event.
 */
 Timer_Event :: struct {
-	type:  Event_Type,  ///< #PUGL_TIMER
-	flags: Event_Flags, ///< Bitwise OR of #PuglEventFlag values
-	id:    rawptr,      ///< Timer ID
+    type:  Event_Type,  ///< #PUGL_TIMER
+    flags: Event_Flags, ///< Bitwise OR of #PuglEventFlag values
+    id:    rawptr,      ///< Timer ID
 }
 
 /**
@@ -545,9 +545,9 @@ puglGetClipboardType() to decide whether to accept the offer with
 puglAcceptOffer().
 */
 Data_Offer_Event :: struct {
-	type:  Event_Type,  ///< #PUGL_DATA_OFFER
-	flags: Event_Flags, ///< Bitwise OR of #PuglEventFlag values
-	time:  f64,         ///< Time in seconds
+    type:  Event_Type,  ///< #PUGL_DATA_OFFER
+    flags: Event_Flags, ///< Bitwise OR of #PuglEventFlag values
+    time:  f64,         ///< Time in seconds
 }
 
 /**
@@ -558,10 +558,10 @@ and converted.  While handling this event, the data can be accessed with
 puglGetClipboard().
 */
 Data_Event :: struct {
-	type:      Event_Type,  ///< #PUGL_DATA
-	flags:     Event_Flags, ///< Bitwise OR of #PuglEventFlag values
-	time:      f64,         ///< Time in seconds
-	typeIndex: u32,         ///< Index of datatype
+    type:      Event_Type,  ///< #PUGL_DATA
+    flags:     Event_Flags, ///< Bitwise OR of #PuglEventFlag values
+    time:      f64,         ///< Time in seconds
+    typeIndex: u32,         ///< Index of datatype
 }
 
 /**
@@ -576,78 +576,78 @@ graphics context is active for #PUGL_REALIZE, #PUGL_UNREALIZE, and
 #PUGL_EXPOSE, but only enabled for drawing for #PUGL_EXPOSE.
 */
 Event :: struct #raw_union {
-	_any:      Any_Event,        ///< Valid for all event types
-	type:      Event_Type,       ///< Event type
-	button:    Button_Event,     ///< #PUGL_BUTTON_PRESS, #PUGL_BUTTON_RELEASE
-	configure: Configure_Event,  ///< #PUGL_CONFIGURE
-	expose:    Expose_Event,     ///< #PUGL_EXPOSE
-	key:       Key_Event,        ///< #PUGL_KEY_PRESS, #PUGL_KEY_RELEASE
-	text:      Text_Event,       ///< #PUGL_TEXT
-	crossing:  Crossing_Event,   ///< #PUGL_POINTER_IN, #PUGL_POINTER_OUT
-	motion:    Motion_Event,     ///< #PUGL_MOTION
-	scroll:    Scroll_Event,     ///< #PUGL_SCROLL
-	focus:     Focus_Event,      ///< #PUGL_FOCUS_IN, #PUGL_FOCUS_OUT
-	client:    Client_Event,     ///< #PUGL_CLIENT
-	timer:     Timer_Event,      ///< #PUGL_TIMER
-	offer:     Data_Offer_Event, ///< #PUGL_DATA_OFFER
-	data:      Data_Event,       ///< #PUGL_DATA
+    _any:      Any_Event,        ///< Valid for all event types
+    type:      Event_Type,       ///< Event type
+    button:    Button_Event,     ///< #PUGL_BUTTON_PRESS, #PUGL_BUTTON_RELEASE
+    configure: Configure_Event,  ///< #PUGL_CONFIGURE
+    expose:    Expose_Event,     ///< #PUGL_EXPOSE
+    key:       Key_Event,        ///< #PUGL_KEY_PRESS, #PUGL_KEY_RELEASE
+    text:      Text_Event,       ///< #PUGL_TEXT
+    crossing:  Crossing_Event,   ///< #PUGL_POINTER_IN, #PUGL_POINTER_OUT
+    motion:    Motion_Event,     ///< #PUGL_MOTION
+    scroll:    Scroll_Event,     ///< #PUGL_SCROLL
+    focus:     Focus_Event,      ///< #PUGL_FOCUS_IN, #PUGL_FOCUS_OUT
+    client:    Client_Event,     ///< #PUGL_CLIENT
+    timer:     Timer_Event,      ///< #PUGL_TIMER
+    offer:     Data_Offer_Event, ///< #PUGL_DATA_OFFER
+    data:      Data_Event,       ///< #PUGL_DATA
 }
 
 /// Return status code
-Status :: enum u32 {
-	SUCCESS               = 0,  ///< Success
-	FAILURE               = 1,  ///< Non-fatal failure
-	UNKNOWN_ERROR         = 2,  ///< Unknown system error
-	BAD_BACKEND           = 3,  ///< Invalid or missing backend
-	BAD_CONFIGURATION     = 4,  ///< Invalid view configuration
-	BAD_PARAMETER         = 5,  ///< Invalid parameter
-	BAD_CALL              = 6,  ///< Invalid call
-	BACKEND_FAILED        = 7,  ///< Backend initialization failed
-	REGISTRATION_FAILED   = 8,  ///< Class registration failed
-	REALIZE_FAILED        = 9,  ///< System view realization failed
-	SET_FORMAT_FAILED     = 10, ///< Failed to set pixel format
-	CREATE_CONTEXT_FAILED = 11, ///< Failed to create drawing context
-	UNSUPPORTED           = 12, ///< Unsupported operation
-	NO_MEMORY             = 13, ///< Failed to allocate memory
+Status :: enum c.int {
+    SUCCESS               = 0,  ///< Success
+    FAILURE               = 1,  ///< Non-fatal failure
+    UNKNOWN_ERROR         = 2,  ///< Unknown system error
+    BAD_BACKEND           = 3,  ///< Invalid or missing backend
+    BAD_CONFIGURATION     = 4,  ///< Invalid view configuration
+    BAD_PARAMETER         = 5,  ///< Invalid parameter
+    BAD_CALL              = 6,  ///< Invalid call
+    BACKEND_FAILED        = 7,  ///< Backend initialization failed
+    REGISTRATION_FAILED   = 8,  ///< Class registration failed
+    REALIZE_FAILED        = 9,  ///< System view realization failed
+    SET_FORMAT_FAILED     = 10, ///< Failed to set pixel format
+    CREATE_CONTEXT_FAILED = 11, ///< Failed to create drawing context
+    UNSUPPORTED           = 12, ///< Unsupported operation
+    NO_MEMORY             = 13, ///< Failed to allocate memory
 }
 
 /// A string property for configuration
-String_Hint :: enum u32 {
-	/**
-	The application name.
+String_Hint :: enum c.int {
+    /**
+    The application name.
 
-	This is a stable identifier for the application, usually something like
-	"my_app" which is the same as the name of the executable.  It's used as
-	the applications name for X11 resources.
-	*/
-	APPLICATION_NAME = 0,
+    This is a stable identifier for the application, usually something like
+    "my_app" which is the same as the name of the executable.  It's used as
+    the applications name for X11 resources.
+    */
+    APPLICATION_NAME = 0,
 
-	/**
-	The application or window class name.
+    /**
+    The application or window class name.
 
-	This is a stable identifier for the application window class, a short
-	camel-case name like "MyApp".  This should be the same for every instance
-	of the application, but different from any other application.  On X11 and
-	Windows, it's used to set the class name of windows, which is used for
-	window management and configuration.
-	*/
-	CLASS_NAME       = 1,
+    This is a stable identifier for the application window class, a short
+    camel-case name like "MyApp".  This should be the same for every instance
+    of the application, but different from any other application.  On X11 and
+    Windows, it's used to set the class name of windows, which is used for
+    window management and configuration.
+    */
+    CLASS_NAME       = 1,
 
-	/**
-	The title of the window or application.
+    /**
+    The title of the window or application.
 
-	This is used by the system to display a title for the application or
-	window, for example in title bars or window/application switchers.  It's
-	only used to display a label to the user, not as an identifier, and can
-	change over time to reflect the current state of the application.  For
-	example, it's common for programs to add the name of the current
-	document, like "myfile.txt - Fancy Editor".
-	*/
-	WINDOW_TITLE     = 2,
+    This is used by the system to display a title for the application or
+    window, for example in title bars or window/application switchers.  It's
+    only used to display a label to the user, not as an identifier, and can
+    change over time to reflect the current state of the application.  For
+    example, it's common for programs to add the name of the current
+    document, like "myfile.txt - Fancy Editor".
+    */
+    WINDOW_TITLE     = 2,
 }
 
 /// The number of #PuglStringHint values
-PUGL_NUM_STRING_HINTS :: 3
+NUM_STRING_HINTS :: 3
 
 /**
 The "world" of application state.
@@ -662,18 +662,18 @@ World_Impl :: struct {}
 
 /// The type of a World
 World_Type :: enum u32 {
-	PROGRAM = 0, ///< Top-level application
-	MODULE  = 1, ///< Plugin or module within a larger application
+    PROGRAM = 0, ///< Top-level application
+    MODULE  = 1, ///< Plugin or module within a larger application
 }
 
 /// World flags
 World_Flag :: enum u32 {
-	/**
-	Set up support for threads if necessary.
+    /**
+    Set up support for threads if necessary.
 
-	X11: Calls XInitThreads() which is required for some drivers.
-	*/
-	PUGL_WORLD_THREADS = 1,
+    X11: Calls XInitThreads() which is required for some drivers.
+    */
+    WORLD_THREADS = 1,
 }
 
 /// Bitwise OR of #PuglWorldFlag values
@@ -718,47 +718,47 @@ Native_View :: rawptr
 
 /// An integer hint for configuring a view
 View_Hint :: enum u32 {
-	CONTEXT_API           = 0,  ///< OpenGL render API (GL/GLES)
-	CONTEXT_VERSION_MAJOR = 1,  ///< OpenGL context major version
-	CONTEXT_VERSION_MINOR = 2,  ///< OpenGL context minor version
-	CONTEXT_PROFILE       = 3,  ///< OpenGL context profile (core/compatibility)
-	CONTEXT_DEBUG         = 4,  ///< OpenGL context debugging enabled
-	RED_BITS              = 5,  ///< Number of bits for red channel
-	GREEN_BITS            = 6,  ///< Number of bits for green channel
-	BLUE_BITS             = 7,  ///< Number of bits for blue channel
-	ALPHA_BITS            = 8,  ///< Number of bits for alpha channel
-	DEPTH_BITS            = 9,  ///< Number of bits for depth buffer
-	STENCIL_BITS          = 10, ///< Number of bits for stencil buffer
-	SAMPLE_BUFFERS        = 11, ///< Number of sample buffers (AA)
-	SAMPLES               = 12, ///< Number of samples per pixel (AA)
-	DOUBLE_BUFFER         = 13, ///< True if double buffering should be used
-	SWAP_INTERVAL         = 14, ///< Number of frames between buffer swaps
-	RESIZABLE             = 15, ///< True if view should be resizable
-	IGNORE_KEY_REPEAT     = 16, ///< True if key repeat events are ignored
-	REFRESH_RATE          = 17, ///< Refresh rate in Hz
-	VIEW_TYPE             = 18, ///< View type (a #PuglViewType)
-	DARK_FRAME            = 19, ///< True if window frame should be dark
+    CONTEXT_API           = 0,  ///< OpenGL render API (GL/GLES)
+    CONTEXT_VERSION_MAJOR = 1,  ///< OpenGL context major version
+    CONTEXT_VERSION_MINOR = 2,  ///< OpenGL context minor version
+    CONTEXT_PROFILE       = 3,  ///< OpenGL context profile (core/compatibility)
+    CONTEXT_DEBUG         = 4,  ///< OpenGL context debugging enabled
+    RED_BITS              = 5,  ///< Number of bits for red channel
+    GREEN_BITS            = 6,  ///< Number of bits for green channel
+    BLUE_BITS             = 7,  ///< Number of bits for blue channel
+    ALPHA_BITS            = 8,  ///< Number of bits for alpha channel
+    DEPTH_BITS            = 9,  ///< Number of bits for depth buffer
+    STENCIL_BITS          = 10, ///< Number of bits for stencil buffer
+    SAMPLE_BUFFERS        = 11, ///< Number of sample buffers (AA)
+    SAMPLES               = 12, ///< Number of samples per pixel (AA)
+    DOUBLE_BUFFER         = 13, ///< True if double buffering should be used
+    SWAP_INTERVAL         = 14, ///< Number of frames between buffer swaps
+    RESIZABLE             = 15, ///< True if view should be resizable
+    IGNORE_KEY_REPEAT     = 16, ///< True if key repeat events are ignored
+    REFRESH_RATE          = 17, ///< Refresh rate in Hz
+    VIEW_TYPE             = 18, ///< View type (a #PuglViewType)
+    DARK_FRAME            = 19, ///< True if window frame should be dark
 }
 
 /// The number of #PuglViewHint values
-PUGL_NUM_VIEW_HINTS :: 20
+NUM_VIEW_HINTS :: 20
 
 /// A special view hint value
 View_Hint_Value :: enum i32 {
-	DONT_CARE                    = -1, ///< Generic trinary: unset
-	FALSE                        = 0,  ///< Generic trinary: false
-	TRUE                         = 1,  ///< Generic trinary: true
-	OPENGL_API                   = 2,  ///< For #PUGL_CONTEXT_API
-	OPENGL_ES_API                = 3,  ///< For #PUGL_CONTEXT_API
-	OPENGL_CORE_PROFILE          = 4,  ///< For #PUGL_CONTEXT_PROFILE
-	OPENGL_COMPATIBILITY_PROFILE = 5,  ///< For #PUGL_CONTEXT_PROFILE
+    DONT_CARE                    = -1, ///< Generic trinary: unset
+    FALSE                        = 0,  ///< Generic trinary: false
+    TRUE                         = 1,  ///< Generic trinary: true
+    OPENGL_API                   = 2,  ///< For #PUGL_CONTEXT_API
+    OPENGL_ES_API                = 3,  ///< For #PUGL_CONTEXT_API
+    OPENGL_CORE_PROFILE          = 4,  ///< For #PUGL_CONTEXT_PROFILE
+    OPENGL_COMPATIBILITY_PROFILE = 5,  ///< For #PUGL_CONTEXT_PROFILE
 }
 
 /// View type
 View_Type :: enum u32 {
-	NORMAL  = 0, ///< A normal top-level window
-	UTILITY = 1, ///< A utility window like a palette or toolbox
-	DIALOG  = 2, ///< A dialog window
+    NORMAL  = 0, ///< A normal top-level window
+    UTILITY = 1, ///< A utility window like a palette or toolbox
+    DIALOG  = 2, ///< A dialog window
 }
 
 /**
@@ -774,31 +774,31 @@ Usually, the origin is the top left of the display, although negative
 coordinates are possible, particularly on multi-display systems.
 */
 Position_Hint :: enum u32 {
-	/**
-	Default position.
+    /**
+    Default position.
 
-	This is used as the initial position if no other position is specified.
-	It isn't necessary to set a default position (unlike the default size,
-	which is required).  If not even a default position is set, then the
-	window will be placed somewhere reasonable according to platform
-	conventions.  Applications must not make assumptions about the initial
-	position, which is implementation-defined, platform-specific, and for
-	embedded views, may become invalid if the parent's size is adjusted.
-	*/
-	DEFAULT_POSITION = 0,
+    This is used as the initial position if no other position is specified.
+    It isn't necessary to set a default position (unlike the default size,
+    which is required).  If not even a default position is set, then the
+    window will be placed somewhere reasonable according to platform
+    conventions.  Applications must not make assumptions about the initial
+    position, which is implementation-defined, platform-specific, and for
+    embedded views, may become invalid if the parent's size is adjusted.
+    */
+    DEFAULT_POSITION = 0,
 
-	/**
-	Current position.
+    /**
+    Current position.
 
-	This reflects the current position of the view, which may be different
-	from the default position if the view has been moved by the user, window
-	manager, or for any other reason.  It overrides the default position.
-	*/
-	CURRENT_POSITION = 1,
+    This reflects the current position of the view, which may be different
+    from the default position if the view has been moved by the user, window
+    manager, or for any other reason.  It overrides the default position.
+    */
+    CURRENT_POSITION = 1,
 }
 
 /// The number of #PuglPositionHint values
-PUGL_NUM_POSITION_HINTS :: 2
+NUM_POSITION_HINTS :: 2
 
 /**
 A hint for configuring/constraining the size of a view.
@@ -808,97 +808,97 @@ suggestions, not hard constraints.  Applications should handle any view size
 gracefully.
 */
 Size_Hint :: enum u32 {
-	/**
-	Default size.
+    /**
+    Default size.
 
-	This is used as the size during window creation as a default, if no other
-	size is specified.
-	*/
-	DEFAULT_SIZE = 0,
+    This is used as the size during window creation as a default, if no other
+    size is specified.
+    */
+    DEFAULT_SIZE = 0,
 
-	/**
-	Current size.
+    /**
+    Current size.
 
-	This reflects the current size of the view, which may be different from
-	the default size if the view is resizable.  It overrides the default size.
-	*/
-	CURRENT_SIZE = 1,
+    This reflects the current size of the view, which may be different from
+    the default size if the view is resizable.  It overrides the default size.
+    */
+    CURRENT_SIZE = 1,
 
-	/**
-	Minimum size.
+    /**
+    Minimum size.
 
-	If set, the view should be at least this large.
-	*/
-	MIN_SIZE     = 2,
+    If set, the view should be at least this large.
+    */
+    MIN_SIZE     = 2,
 
-	/**
-	Maximum size.
+    /**
+    Maximum size.
 
-	If set, the view should be at most this large.
-	*/
-	MAX_SIZE     = 3,
+    If set, the view should be at most this large.
+    */
+    MAX_SIZE     = 3,
 
-	/**
-	Fixed aspect ratio.
+    /**
+    Fixed aspect ratio.
 
-	If set, the view should have this aspect ratio.  Mutually exclusive with
-	#PUGL_MIN_ASPECT and #PUGL_MAX_ASPECT.
-	*/
-	FIXED_ASPECT = 4,
+    If set, the view should have this aspect ratio.  Mutually exclusive with
+    #PUGL_MIN_ASPECT and #PUGL_MAX_ASPECT.
+    */
+    FIXED_ASPECT = 4,
 
-	/**
-	Minimum aspect ratio.
+    /**
+    Minimum aspect ratio.
 
-	If set, the view should have an aspect ratio no lower than this.  Mutually
-	exclusive with #PUGL_FIXED_ASPECT.
-	*/
-	MIN_ASPECT   = 5,
+    If set, the view should have an aspect ratio no lower than this.  Mutually
+    exclusive with #PUGL_FIXED_ASPECT.
+    */
+    MIN_ASPECT   = 5,
 
-	/**
-	Maximum aspect ratio.
+    /**
+    Maximum aspect ratio.
 
-	If set, the view should have an aspect ratio no higher than this.
-	Mutually exclusive with #PUGL_FIXED_ASPECT.
-	*/
-	MAX_ASPECT   = 6,
+    If set, the view should have an aspect ratio no higher than this.
+    Mutually exclusive with #PUGL_FIXED_ASPECT.
+    */
+    MAX_ASPECT   = 6,
 }
 
 /// The number of #PuglSizeHint values
-PUGL_NUM_SIZE_HINTS :: 7
+NUM_SIZE_HINTS :: 7
 
 /// A function called when an event occurs
 Event_Func :: proc "c" (view: ^View, event: ^Event) -> Status
 
 /// A command to control the behaviour of puglShow()
-Show_Command :: enum u32 {
-	/**
-	Realize and show the window without intentionally raising it.
+Show_Command :: enum c.int {
+    /**
+    Realize and show the window without intentionally raising it.
 
-	This will weakly "show" the window but without making any effort to raise
-	it.  Depending on the platform or system configuration, the window may be
-	raised above some others regardless.
-	*/
-	PASSIVE     = 0,
+    This will weakly "show" the window but without making any effort to raise
+    it.  Depending on the platform or system configuration, the window may be
+    raised above some others regardless.
+    */
+    PASSIVE     = 0,
 
-	/**
-	Raise the window to the top of the application's stack.
+    /**
+    Raise the window to the top of the application's stack.
 
-	This is the normal "well-behaved" way to show and raise the window, which
-	should be used in most cases.
-	*/
-	RAISE       = 1,
+    This is the normal "well-behaved" way to show and raise the window, which
+    should be used in most cases.
+    */
+    RAISE       = 1,
 
-	/**
-	Aggressively force the window to be raised to the top.
+    /**
+    Aggressively force the window to be raised to the top.
 
-	This will attempt to raise the window to the top, even if this isn't the
-	active application, or if doing so would otherwise go against the
-	platform's guidelines.  This generally shouldn't be used, and isn't
-	guaranteed to work.  On modern Windows systems, the active application
-	must explicitly grant permission for others to steal the foreground from
-	it.
-	*/
-	FORCE_RAISE = 2,
+    This will attempt to raise the window to the top, even if this isn't the
+    active application, or if doing so would otherwise go against the
+    platform's guidelines.  This generally shouldn't be used, and isn't
+    guaranteed to work.  On modern Windows systems, the active application
+    must explicitly grant permission for others to steal the foreground from
+    it.
+    */
+    FORCE_RAISE = 2,
 }
 
 /**
@@ -908,25 +908,25 @@ This is a portable subset of mouse cursors that exist on X11, MacOS, and
 Windows.
 */
 Cursor :: enum u32 {
-	ARROW              = 0, ///< Default pointing arrow
-	CARET              = 1, ///< Caret (I-Beam) for text entry
-	CROSSHAIR          = 2, ///< Cross-hair
-	HAND               = 3, ///< Hand with a pointing finger
-	NO                 = 4, ///< Operation not allowed
-	LEFT_RIGHT         = 5, ///< Left/right arrow for horizontal resize
-	UP_DOWN            = 6, ///< Up/down arrow for vertical resize
-	UP_LEFT_DOWN_RIGHT = 7, ///< Diagonal arrow for down/right resize
-	UP_RIGHT_DOWN_LEFT = 8, ///< Diagonal arrow for down/left resize
-	ALL_SCROLL         = 9, ///< Omnidirectional "arrow" for scrolling
+    ARROW              = 0, ///< Default pointing arrow
+    CARET              = 1, ///< Caret (I-Beam) for text entry
+    CROSSHAIR          = 2, ///< Cross-hair
+    HAND               = 3, ///< Hand with a pointing finger
+    NO                 = 4, ///< Operation not allowed
+    LEFT_RIGHT         = 5, ///< Left/right arrow for horizontal resize
+    UP_DOWN            = 6, ///< Up/down arrow for vertical resize
+    UP_LEFT_DOWN_RIGHT = 7, ///< Diagonal arrow for down/right resize
+    UP_RIGHT_DOWN_LEFT = 8, ///< Diagonal arrow for down/left resize
+    ALL_SCROLL         = 9, ///< Omnidirectional "arrow" for scrolling
 }
 
 /// The number of #PuglCursor values
-PUGL_NUM_CURSORS :: 10
+NUM_CURSORS :: 10
 
 @(default_calling_convention="c", link_prefix="pugl")
 foreign lib {
-	/// Return a string describing a status code
-	Strerror :: proc(status: Status) -> ^i32 ---
+    /// Return a string describing a status code
+    Strerror :: proc(status: Status) -> cstring ---
 
     /**
        Create a new world.
@@ -938,36 +938,36 @@ foreign lib {
     NewWorld :: proc(type: World_Type, flags: World_Flags) -> ^World ---
 
 
-	/// Free a world allocated with puglNewWorld()
-	FreeWorld :: proc(world: ^World)  ---
+    /// Free a world allocated with puglNewWorld()
+    FreeWorld :: proc(world: ^World)  ---
 
-	/**
-	Set the user data for the world.
+    /**
+    Set the user data for the world.
 
-	This is usually a pointer to a struct that contains all the state shared by
-	any views.
+    This is usually a pointer to a struct that contains all the state shared by
+    any views.
 
-	The handle is opaque to Pugl and isn't interpreted in any way.
-	*/
-	SetWorldHandle :: proc(world: ^World, handle: rawptr) ---
+    The handle is opaque to Pugl and isn't interpreted in any way.
+    */
+    SetWorldHandle :: proc(world: ^World, handle: rawptr) ---
 
-	/// Get the user data for the world
-	GetWorldHandle :: proc(world: ^World) -> rawptr ---
+    /// Get the user data for the world
+    GetWorldHandle :: proc(world: ^World) -> rawptr ---
 
-	/**
-	Return the native world handle.
+    /**
+    Return the native world handle.
 
-	The "native world" is a system-specific handle that's shared across an
-	entire program or module.  It serves as a common denominator between Pugl,
-	applications, and the windowing system API.
+    The "native world" is a system-specific handle that's shared across an
+    entire program or module.  It serves as a common denominator between Pugl,
+    applications, and the windowing system API.
 
-	X11: Returns a pointer to the `Display`.
+    X11: Returns a pointer to the `Display`.
 
-	MacOS: Returns a pointer to the `NSApplication`.
+    MacOS: Returns a pointer to the `NSApplication`.
 
-	Windows: Returns the `HMODULE` of the calling process.
-	*/
-	GetNativeWorld :: proc(world: ^World) -> rawptr ---
+    Windows: Returns the `HMODULE` of the calling process.
+    */
+    GetNativeWorld :: proc(world: ^World) -> rawptr ---
 
     /**
        Set a string property to configure the world or application.
@@ -978,22 +978,22 @@ foreign lib {
     SetWorldString :: proc(world: ^World, key: String_Hint, value: cstring) -> Status ---
 
 
-	/**
-	Get a world or application string property.
+    /**
+    Get a world or application string property.
 
-	The returned string should be accessed immediately or copied if necessary,
-	it may be invalidated by any change to the same world.
-	*/
-	GetWorldString :: proc(world: ^World, key: String_Hint) -> Status ---
+    The returned string should be accessed immediately or copied if necessary,
+    it may be invalidated by any change to the same world.
+    */
+    GetWorldString :: proc(world: ^World, key: String_Hint) -> cstring ---
 
-	/**
-	Return the time in seconds.
+    /**
+    Return the time in seconds.
 
-	This is a monotonically increasing clock with high resolution.  The returned
-	time is only useful to compare against other times returned by this
-	function, its absolute value has no meaning.
-	*/
-	GetTime :: proc(world: ^World) -> i32 ---
+    This is a monotonically increasing clock with high resolution.  The returned
+    time is only useful to compare against other times returned by this
+    function, its absolute value has no meaning.
+    */
+    GetTime :: proc(world: ^World) -> f64 ---
 
 
     /**
@@ -1035,25 +1035,25 @@ foreign lib {
     */
     NewView :: proc(world: ^World) -> ^View ---
 
-	/// Free a view created with puglNewView()
-	FreeView :: proc(view: ^View)  ---
+    /// Free a view created with puglNewView()
+    FreeView :: proc(view: ^View)  ---
 
     /// Return the world that `view` is a part of
     GetWorld :: proc(view: ^View) -> ^World ---
 
-	/**
-	Set the user data for a view.
+    /**
+    Set the user data for a view.
 
-	This is usually a pointer to a struct that contains all the state needed by
-	a view.  Everything needed to process events should be stored here, not in
-	static variables.
+    This is usually a pointer to a struct that contains all the state needed by
+    a view.  Everything needed to process events should be stored here, not in
+    static variables.
 
-	The handle is opaque to Pugl and isn't interpreted in any way.
-	*/
-	SetHandle :: proc(view: ^View, handle: rawptr) ---
+    The handle is opaque to Pugl and isn't interpreted in any way.
+    */
+    SetHandle :: proc(view: ^View, handle: rawptr) ---
 
-	/// Get the user data for a view
-	GetHandle :: proc(view: ^View) -> rawptr ---
+    /// Get the user data for a view
+    GetHandle :: proc(view: ^View) -> rawptr ---
 
 
     /**
@@ -1087,17 +1087,17 @@ foreign lib {
 
        This only has an effect when called before puglRealize().
     */
-    SetViewHint :: proc(view: ^View, hint: View_Hint, value: i32) -> Status ---
+    SetViewHint :: proc(view: ^View, hint: View_Hint, value: c.int) -> Status ---
 
 
-	/**
-	Get the value for a view hint.
+    /**
+    Get the value for a view hint.
 
-	If the view has been realized, this can be used to get the actual value of a
-	hint which was initially set to PUGL_DONT_CARE, or has been adjusted from
-	the suggested value.
-	*/
-	GetViewHint :: proc(view: ^View, hint: View_Hint) -> i32 ---
+    If the view has been realized, this can be used to get the actual value of a
+    hint which was initially set to PUGL_DONT_CARE, or has been adjusted from
+    the suggested value.
+    */
+    GetViewHint :: proc(view: ^View, hint: View_Hint) -> c.int ---
 
     /**
        Set a string property to configure view properties.
@@ -1109,23 +1109,23 @@ foreign lib {
     SetViewString :: proc(view: ^View, key: String_Hint, value: cstring) -> Status ---
 
 
-	/**
-	Get a view string property.
+    /**
+    Get a view string property.
 
-	The returned string should be accessed immediately, or copied.  It may
-	become invalid upon any call to any function that manipulates the same view.
-	*/
-	GetViewString :: proc(view: ^View, key: String_Hint) -> cstring ---
+    The returned string should be accessed immediately, or copied.  It may
+    become invalid upon any call to any function that manipulates the same view.
+    */
+    GetViewString :: proc(view: ^View, key: String_Hint) -> cstring ---
 
-	/**
-	Return the scale factor of the view.
+    /**
+    Return the scale factor of the view.
 
-	This factor describe how large UI elements (especially text) should be
-	compared to "normal".  For example, 2.0 means the UI should be drawn twice
-	as large.  "Normal" is loosely defined as a typical default size on a
-	"standard DPI" display (around 96 DPI).
-	*/
-	GetScaleFactor :: proc(view: ^View) -> f64 ---
+    This factor describe how large UI elements (especially text) should be
+    compared to "normal".  For example, 2.0 means the UI should be drawn twice
+    as large.  "Normal" is loosely defined as a typical default size on a
+    "standard DPI" display (around 96 DPI).
+    */
+    GetScaleFactor :: proc(view: ^View) -> f64 ---
 
     /**
        Get a position hint for the view.
@@ -1147,7 +1147,7 @@ foreign lib {
        @return An error code on failure, but always succeeds if the view isn't yet
        realized.
     */
-    SetPositionHint :: proc(view: ^View, hint: Position_Hint, x, y: i32) -> Status ---
+    SetPositionHint :: proc(view: ^View, hint: Position_Hint, x, y: c.int) -> Status ---
 
     /**
        Get a size hint for the view.
@@ -1170,7 +1170,7 @@ foreign lib {
        @return An error code on failure, but always succeeds if the view isn't yet
        realized.
     */
-    SetSizeHint :: proc(view: ^View, hint: Size_Hint, width, height: u32) -> Status ---
+    SetSizeHint :: proc(view: ^View, hint: Size_Hint, width, height: c.uint) -> Status ---
 
     /**
        @}
@@ -1276,18 +1276,18 @@ foreign lib {
     GetNativeView :: proc(view: ^View) -> Native_View ---
 
 
-	/**
-	Get the graphics context.
+    /**
+    Get the graphics context.
 
-	This is a backend-specific context used for drawing if the backend graphics
-	API requires one.  It's only available during an expose.
+    This is a backend-specific context used for drawing if the backend graphics
+    API requires one.  It's only available during an expose.
 
-	Cairo: Returns a pointer to a
-	[cairo_t](http://www.cairographics.org/manual/cairo-cairo-t.html).
+    Cairo: Returns a pointer to a
+    [cairo_t](http://www.cairographics.org/manual/cairo-cairo-t.html).
 
-	All other backends: returns null.
-	*/
-	GetContext :: proc(view: ^View) -> rawptr ---
+    All other backends: returns null.
+    */
+    GetContext :: proc(view: ^View) -> rawptr ---
 
     /**
        Request a redisplay for the entire view.
@@ -1317,7 +1317,7 @@ foreign lib {
        @param width The width of the rectangle to obscure.
        @param height The height coordinate of the rectangle to obscure.
     */
-    ObscureRegion :: proc(view: ^View, x, y: i32, width, height: u32) -> Status ---
+    ObscureRegion :: proc(view: ^View, x, y: c.int, width, height: c.uint) -> Status ---
 
 
 
@@ -1353,16 +1353,16 @@ foreign lib {
     */
     GetNumClipboardTypes :: proc(view: ^View) -> u32 ---
 
-	/**
-    	Return the identifier of a type available in a clipboard.
+    /**
+        Return the identifier of a type available in a clipboard.
 
-    	This is usually a MIME type, but may also be another platform-specific type
-    	identifier.  Applications must ignore any type they don't recognize.
+        This is usually a MIME type, but may also be another platform-specific type
+        identifier.  Applications must ignore any type they don't recognize.
 
-    	Returns null if `typeIndex` is out of bounds according to
-    	puglGetNumClipboardTypes().
-	*/
-	GetClipboardType :: proc(view: ^View, typeIndex: u32) -> cstring ---
+        Returns null if `typeIndex` is out of bounds according to
+        puglGetNumClipboardTypes().
+    */
+    GetClipboardType :: proc(view: ^View, typeIndex: u32) -> cstring ---
 
     /**
        Accept data offered from a clipboard.
@@ -1393,22 +1393,22 @@ foreign lib {
        @param data The data to copy to the clipboard.
        @param len The length of data in bytes (including terminator if necessary).
     */
-    SetClipboard :: proc(view: ^View, type: cstring, data: rawptr, len: u64) -> Status ---
+    SetClipboard :: proc(view: ^View, type: cstring, data: rawptr, len: c.size_t) -> Status ---
 
-	/**
-    	Get the clipboard contents.
+    /**
+        Get the clipboard contents.
 
-    	This gets the system clipboard contents, which may have been set with
-    	puglSetClipboard() or copied from another application.
+        This gets the system clipboard contents, which may have been set with
+        puglSetClipboard() or copied from another application.
 
-    	@param view The view.
-    	@param typeIndex Index of the data type to get the item as.
-    	@param[out] len Set to the length of the data in bytes.
-    	@return The clipboard contents, or null.
-	*/
-	GetClipboard :: proc(view: ^View, typeIndex: u32, len: ^u64) -> rawptr ---
+        @param view The view.
+        @param typeIndex Index of the data type to get the item as.
+        @param[out] len Set to the length of the data in bytes.
+        @return The clipboard contents, or null.
+    */
+    GetClipboard :: proc(view: ^View, typeIndex: u32, len: ^c.size_t) -> rawptr ---
 
-	/**
+    /**
         Set the mouse cursor.
 
         This changes the system cursor that is displayed when the pointer is inside
